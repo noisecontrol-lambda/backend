@@ -409,3 +409,61 @@ Body was empty
     }
   }
 ```
+
+**/----------------------------------------/**
+
+### **Delete a single Teacher**
+
+_method url_: `/api/teachers/:id`
+
+_http method_: **[DELETE]**
+
+#### Headers
+
+| name            | type   | required | description                    |
+| --------------  | ------ | -------- | ------------------------------ |
+| `Authorization` | String | Yes      | Authorization token from login |
+
+#### Body
+None
+
+#### Response
+
+##### 200 (ok)
+
+###### Example response
+
+```
+  {
+    message: "Teacher with id ${id} deleted"
+  }
+```
+
+##### 401 (UnAuthorized)
+
+```
+  {
+    message: "Invalid or expired token"
+  }
+```
+
+##### 404 (Bad Request) 
+Body was empty
+
+```
+  {
+    message: "Could not find teacher with id ${id}"
+  }
+```
+
+##### 500 (Bad Request)
+
+```
+  {
+    message: "Failed to delete teacher",
+    error: {
+      "errno": 1,
+      "code": "SOME_ERROR"
+    }
+  }
+```

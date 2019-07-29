@@ -310,6 +310,12 @@ _method url_: `/api/teachers/:id`
 
 _http method_: **[PUT]**
 
+#### Headers
+
+| name            | type   | required | description                    |
+| --------------  | ------ | -------- | ------------------------------ |
+| `Authorization` | String | Yes      | Authorization token from login |
+
 #### Body
 Any of the following
 

@@ -236,6 +236,12 @@ _method url_: `/api/teachers/:id`
 
 _http method_: **[GET]**
 
+#### Headers
+
+| name            | type   | required | description                    |
+| --------------  | ------ | -------- | ------------------------------ |
+| `Authorization` | String | Yes      | Authorization token from login |
+
 #### Response
 
 ##### 200 (ok)

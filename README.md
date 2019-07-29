@@ -328,8 +328,7 @@ Any of the following
 | `lastName`   | String | No       |                        |
 | `title`      | String | No       | Mr., Mrs., etc         |
 | `theme`      | String | No       | Default theme          |
-| `intake`     | String | No       | Intake Q & A           |
-|              |        |          | JSON.stringify() first |
+| `intake`     | String | No       | Intake Q & A  (JSON.stringify()) first |
 
 #### Example
 
@@ -467,3 +466,85 @@ Body was empty
     }
   }
 ```
+
+**/--------------------------------------------/ CLASS ROUTES /-----------------------------------/**
+
+**Create a Class **
+_method url_: `/api/classes/`
+
+_http method_: **[POST]**
+
+#### Headers
+
+| name            | type   | required | description                    |
+| --------------  | ------ | -------- | ------------------------------ |
+| `Authorization` | String | Yes      | Authorization token from login |
+
+#### Body
+
+| name         | type   | required | description   
+| ------------ | ------ | -------- | --------------
+| `username`   | String | Yes      | Must be unique
+| `password`   | String | Yes      |               
+| `email`      | String | Yes      | Must be unique
+| `firstName`  | String | No       |               
+| `lastName`   | String | No       |               
+| `title`      | String | No       | Mr., Mrs., etc
+| `theme`      | String | No       | Default theme 
+| `intake`     | String | No       | Intake Q & A (JSON.stringify() first)
+
+#### Example
+
+```
+  {
+    "username": "michael",
+    "password": "1234",
+    "email": "michael@example.com",
+    "firstName": "Michael",
+    "lastName": "Hart",
+    "title": "Mr.",
+    "theme": "zoo"
+  }
+```
+
+#### Response
+
+##### 201 (created)
+
+###### Example Response
+
+```
+  {
+    "id": 2,
+    "username": "michael",
+    "email": "michael@example.com",
+    "firstName": "Michael",
+    "lastName": "Hart",
+    "title": "Mr.",
+    "theme": "zoo",
+    "intake": null,
+    "classes": []
+  }
+```
+
+##### 428 (Preconditon Failed)
+
+```
+  {
+    "message": "Missing required field(s): username, password"
+  }
+```
+
+##### 500 (Server error)
+
+```
+  {
+    "message": "Teacher could not be added",
+    "error": {
+      "errno": 19,
+      "code": "SQLITE_CONSTRAINT"
+    }
+  }
+```
+
+`SQLITE_CONSTRAINT` usually indicates that one of the fields that is required to be unique, eg. `username` or `email`, is already registered. Will replace this with more helpful error messages soon.

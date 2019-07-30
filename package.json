@@ -15,11 +15,15 @@
     "sqlite3": "^4.0.9"
   },
   "devDependencies": {
-    "morgan": "^1.9.1"
+    "cross-env": "^5.2.0",
+    "jest": "^24.8.0",
+    "morgan": "^1.9.1",
+    "supertest": "^4.0.2"
   },
   "scripts": {
     "server": "nodemon",
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "cross-env DB_ENV=testing jest --watch --verbose"
   },
   "author": "michael-hart",
   "license": "MIT"

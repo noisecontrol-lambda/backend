@@ -11,11 +11,14 @@ exports.up = function(knex) {
 			.inTable('teachers')
 			.onDelete('CASCADE')
 			.onUpdate('CASCADE');
-    tbl.string('theme', 128);
-    tbl.integer('timer').unsigned();
-    tbl.integer('threshold').unsigned();
-    tbl.integer('sensitivity');
-    tbl.timestamp('streakSince').notNullable().defaultTo(knex.fn.now());
+		tbl.string('theme', 128);
+		tbl.string('grade');
+		tbl.integer('numberOfKids').unsigned().notNullable().defaultTo(0);
+
+    // tbl.integer('timer').unsigned();
+    // tbl.integer('threshold').unsigned();
+    // tbl.integer('sensitivity');
+    tbl.integer('streak').unsigned().notNullable().defaultTo(0);
 	});
 };
 

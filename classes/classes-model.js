@@ -19,7 +19,7 @@ function findBy(filter) {
 }
 
 async function add(classroom) {
-  console.log(classroom);
+  // console.log(classroom);
   const [id] = await db('classes').insert(classroom);
 
   return findById(id);
@@ -57,17 +57,9 @@ async function findScoreById(id) {
 }
 
 async function addScore(score) {
-  const id = score.classId;
-  if (!score.streak) {
-    await db('classes')
-      .where({ id })
-      .update({ streakSince: db.fn.now() });
-  }
-  const newStreak = await db('classes')
-    .where({ id })
-    .select('streakSince')
-    .first();
-  const newId = await db('scores').insert(score);
-  const newScore = await findScoreById(Number(newId));
-  return { ...newScore, streakSince: newStreak.streakSince };
+  const id = await db('scores').insert(score);
+  await db('classes')
+    .where({ id: score.classId })
+    .update({ streak: score.streak });
+  return await findScoreById(Number(id));
 }

@@ -80,7 +80,7 @@ router.post('/:id/score', restricted, validateScore, async (req, res) => {
     const streakSince = await Classes.addScore(req.score);
     res.status(201).json(streakSince);
   } catch (error) {
-    res.status(500).json({ message: 'Class could not be added', error });
+    res.status(500).json({ message: 'Score could not be added', error });
   }
 });
 

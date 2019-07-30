@@ -24,7 +24,6 @@ _http method_: **[POST]**
 | `lastName`   | String | No       |                        |
 | `title`      | String | No       | Mr., Mrs., etc         |
 | `theme`      | String | No       | Default theme          |
-| `intake`     | String | No       | Intake Q & A           |
 |              |        |          | JSON.stringify() first |
 
 #### Example
@@ -49,14 +48,13 @@ _http method_: **[POST]**
 
 ```
   {
-    "id": 2,
+    "id": 1,
     "username": "michael",
     "email": "michael@example.com",
     "firstName": "Michael",
     "lastName": "Hart",
     "title": "Mr.",
     "theme": "zoo",
-    "intake": null,
     "classes": []
   }
 ```
@@ -130,7 +128,6 @@ _http method_: **[POST]**
     "lastName": "Hart",
     "title": "Mr.",
     "theme": "zoo",
-    "intake": null,
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoyLCJ1c2VybmFtZSI6Im1pY2hhZWwiLCJpYXQiOjE1NjQ0MDY4OTQsImV4cCI6MTU2NDQ1MDA5NH0.sbuq8MfwUEaqjcdMEFgCLsxlNvnrpX9UndYIMKli14s"
   }
 ```
@@ -147,7 +144,7 @@ _http method_: **[POST]**
 
 ```
   {
-    message: "Invalid credentials"
+    message: "Invalid or expired token"
   }
 ```
 
@@ -193,7 +190,6 @@ _http method_: **[GET]**
       "lastName": "Hart",
       "title": "Mr.",
       "theme": "zoo",
-      "intake": null
     },
     {
       "id": 2,
@@ -202,8 +198,7 @@ _http method_: **[GET]**
       "firstName": "Anabel",
       "lastName": "Roberts",
       "title": "Mrs.",
-      "theme": "aquarium",
-      "intake": null
+      "theme": "aquarium"
     }
   ]
 ```
@@ -250,24 +245,20 @@ _http method_: **[GET]**
 
 ```
   {
-    "id": 2,
+    "id": 1,
     "username": "michael",
     "email": "michael@example.com",
     "firstName": "Michael",
     "lastName": "Hart",
     "title": "Mr.",
     "theme": "zoo",
-    "intake": null,
     "classes": [
       {
         "id": 4,
         "name": "First grade",
         "teacherId": 2,
         "theme": "zoo",
-        "timer": 60,
-        "threshold": 85,
-        "sensitivity": 50,
-        "streakSince": "2019-07-29 13:39:49"
+        "streak": 3
       }
     ]
   }
@@ -328,7 +319,6 @@ Any of the following
 | `lastName`   | String | No       |                        |
 | `title`      | String | No       | Mr., Mrs., etc         |
 | `theme`      | String | No       | Default theme          |
-| `intake`     | String | No       | Intake Q & A  (JSON.stringify()) first |
 
 #### Example
 
@@ -355,17 +345,13 @@ Any of the following
     "lastName": "Hart",
     "title": "Mr.",
     "theme": "aquarium",
-    "intake": null,
     "classes": [
       {
         "id": 4,
         "name": "First grade",
         "teacherId": 2,
         "theme": "zoo",
-        "timer": 60,
-        "threshold": 85,
-        "sensitivity": 50,
-        "streakSince": "2019-07-29 13:39:49"
+        "streak": 3
       }
     ]
   }
@@ -482,28 +468,122 @@ _http method_: **[POST]**
 
 #### Body
 
-| name         | type   | required | description   
-| ------------ | ------ | -------- | --------------
-| `username`   | String | Yes      | Must be unique
-| `password`   | String | Yes      |               
-| `email`      | String | Yes      | Must be unique
-| `firstName`  | String | No       |               
-| `lastName`   | String | No       |               
-| `title`      | String | No       | Mr., Mrs., etc
-| `theme`      | String | No       | Default theme 
-| `intake`     | String | No       | Intake Q & A (JSON.stringify() first)
+| name         | type    | required | description   
+| ------------ | ------- | -------- | --------------
+| `name`       | String  | Yes      | 
+| `teacherId`  | Integer | Yes      | Must be the ID of an existing teacher record
+| `theme`      | String  | No       |
+| `grade`      | String  | No       |
+| `numberOfKids`| Integer | No     
+| `streak`     | Integer | No       | Will automatically be copied from most recent streak you've saved, no need to update this manually but you can
+
+#### Example
+
+```
+{
+	"name": "Third grade",
+	"teacherId": 1,
+	"grade": "3",
+	"numberOfKids": 25,
+  "theme": "zoo"
+}
+```
+
+#### Response
+
+##### 201 (created)
+
+###### Example Response
+
+```
+  {
+    "id": 1,
+    "name": "Third grade",
+    "teacherId": 1,
+    "grade": "3",
+    "numberOfKids": 25,
+    "theme": "zoo",
+    "streak": 0
+  }
+```
+
+##### 401 (UnAuthorized)
+
+```
+  {
+    message: "Invalid or expired token"
+  }
+```
+
+##### 404 (Bad Request) 
+Body was empty
+```
+  {
+    message: "Missing class data"
+  }
+```
+
+##### 404 (Bad Request) 
+
+```
+  {
+    message: "Could not find class with id ${id}"
+  }
+```
+
+##### 428 (Preconditon Failed)
+
+```
+  {
+    "message": "Missing required field(s): name, teacherId"
+  }
+```
+
+##### 500 (Server error)
+
+```
+  {
+    "message": "Class could not be added",
+    "error": {
+      "errno": 19,
+      "code": "SQLITE_CONSTRAINT"
+    }
+  }
+```
+
+`SQLITE_CONSTRAINT` usually indicates that one of the fields that is required to be unique, eg. `username` or `email`, is already registered. Will replace this with more helpful error messages soon.
+
+**/----------------------------------------/**
+
+**Modify a Class **
+_method url_: `/api/classes/:id`
+
+_http method_: **[PUT]**
+
+#### Headers
+
+| name            | type   | required | description                    |
+| --------------  | ------ | -------- | ------------------------------ |
+| `Authorization` | String | Yes      | Authorization token from login |
+
+#### Body
+Any of the following
+
+| name         | type    | required | description   
+| ------------ | ------- | -------- | --------------
+| `name`       | String  | Yes      | 
+| `teacherId`  | Integer | Yes      | Must be the ID of an existing teacher record
+| `theme`      | String  | No       |
+| `grade`      | String  | No       |
+| `numberOfKids`| Integer | No     
+| `streak`     | Integer | No       | Will automatically be copied from most recent streak you've saved, no need to update this manually but you can
 
 #### Example
 
 ```
   {
-    "username": "michael",
-    "password": "1234",
-    "email": "michael@example.com",
-    "firstName": "Michael",
-    "lastName": "Hart",
-    "title": "Mr.",
-    "theme": "zoo"
+    "name": "Second Grade",
+    "grade": "2"
   }
 ```
 
@@ -515,15 +595,38 @@ _http method_: **[POST]**
 
 ```
   {
-    "id": 2,
-    "username": "michael",
-    "email": "michael@example.com",
-    "firstName": "Michael",
-    "lastName": "Hart",
-    "title": "Mr.",
+    "id": 1,
+    "name": "Second grade",
+    "teacherId": 1,
+    "grade": "2",
+    "numberOfKids": 25,
     "theme": "zoo",
-    "intake": null,
-    "classes": []
+    "streak": 0
+  }
+```
+
+##### 401 (UnAuthorized)
+
+```
+  {
+    message: "Invalid or expired token"
+  }
+```
+
+##### 404 (Bad Request) 
+Body was empty
+
+```
+  {
+    message: "Missing class data"
+  }
+```
+
+##### 404 (Bad Request) 
+
+```
+  {
+    message: "Could not find class with id ${id}"
   }
 ```
 
@@ -531,7 +634,7 @@ _http method_: **[POST]**
 
 ```
   {
-    "message": "Missing required field(s): username, password"
+    "message": "Missing required field(s): name, teacherId"
   }
 ```
 
@@ -539,7 +642,278 @@ _http method_: **[POST]**
 
 ```
   {
-    "message": "Teacher could not be added",
+    "message": "Failed to update class",
+    "error": {
+      "errno": 19,
+      "code": "SQLITE_CONSTRAINT"
+    }
+  }
+```
+
+**/----------------------------------------/**
+
+**Get list of Classes **
+_method url_: `/api/classes/`
+
+_http method_: **[GET]**
+
+#### Headers
+
+| name            | type   | required | description                    |
+| --------------  | ------ | -------- | ------------------------------ |
+| `Authorization` | String | Yes      | Authorization token from login |
+
+#### Body
+None
+
+#### Response
+
+##### 200 (OK)
+
+###### Example Response
+
+```
+[
+  {
+    "id": 1,
+    "name": "Third grade",
+    "teacherId": 2,
+    "theme": "zoo",
+    "grade": "3",
+    "numberOfKids": 25,
+    "streak": 4
+  },
+  {
+    "id": 2,
+    "name": "Kindergarten",
+    "teacherId": 1,
+    "theme": "jungle",
+    "grade": "Kindergarten",
+    "numberOfKids": 30,
+    "streak": 2
+  }
+]
+```
+
+##### 401 (UnAuthorized)
+
+```
+  {
+    message: "Invalid or expired token"
+  }
+```
+
+##### 500 (Bad Request)
+
+```
+  {
+    "message": "Failed to get classes",
+    "error": {
+      "errno": 19,
+      "code": "SQLITE_CONSTRAINT"
+    }
+  }
+```
+
+**/----------------------------------------/**
+
+**Get Class by ID **
+_method url_: `/api/classes/:id`
+
+_http method_: **[GET]**
+
+#### Headers
+
+| name            | type   | required | description                    |
+| --------------  | ------ | -------- | ------------------------------ |
+| `Authorization` | String | Yes      | Authorization token from login |
+
+#### Body
+None
+
+#### Response
+
+##### 200 (OK)
+
+###### Example Response
+
+```
+[
+  {
+    "id": 1,
+    "name": "Third grade",
+    "teacherId": 2,
+    "theme": "zoo",
+    "grade": "3",
+    "numberOfKids": 25,
+    "streak": 4
+  }
+]
+```
+
+##### 401 (UnAuthorized)
+
+```
+  {
+    message: "Invalid or expired token"
+  }
+```
+
+##### 404 (Bad Request)
+
+```
+  {
+    message: "Could not find class with id ${id}"
+  }
+```
+
+##### 500 (Bad Request)
+
+```
+  {
+    "message": "Failed to get class",
+    "error": {
+      "errno": 19,
+      "code": "SQLITE_CONSTRAINT"
+    }
+  }
+```
+
+**/----------------------------------------/**
+
+**Delete a Class by ID **
+_method url_: `/api/classes/:id`
+
+_http method_: **[DELETE]**
+
+#### Headers
+
+| name            | type   | required | description                    |
+| --------------  | ------ | -------- | ------------------------------ |
+| `Authorization` | String | Yes      | Authorization token from login |
+
+#### Body
+None
+
+#### Response
+
+##### 200 (OK)
+
+###### Example Response
+
+```
+  {
+    "message": "Class with id 1 deleted"
+  }
+```
+
+##### 401 (UnAuthorized)
+
+```
+  {
+    message: "Invalid or expired token"
+  }
+```
+
+##### 404 (Bad Request) 
+
+```
+  {
+    message: "Could not find class with id ${id}"
+  }
+```
+
+##### 500 (Server error)
+
+```
+  {
+    "message": "Failed to delete class",
+    "error": {
+      "errno": 19,
+      "code": "SQLITE_CONSTRAINT"
+    }
+  }
+```
+
+**/--------------------------------------------/ SCORE ROUTES /-----------------------------------/**
+
+**Create a Class **
+_method url_: `/api/classes/:id/score`
+
+_http method_: **[POST]**
+
+#### Headers
+
+| name            | type   | required | description                    |
+| --------------  | ------ | -------- | ------------------------------ |
+| `Authorization` | String | Yes      | Authorization token from login |
+
+#### Body
+
+| name         | type    | required | description   
+| ------------ | ------- | -------- | --------------
+| `classId`       | Integer  | Yes      | Must be the ID of an existing class record
+| `score`      | Integer  | No       |
+| `streak`     | Integer | Yes       | After POSTing, this value will also be copied automatically to the class record
+| `theme`      | String | No | In case a teacher wants to track which theme gets the best results from their kids
+
+#### Example
+
+```
+  {
+    "classId": 2,
+    "streak": 6,
+    "score": 100,
+    "theme": "aquarium"
+  }
+```
+
+#### Response
+
+##### 201 (created)
+
+###### Example Response
+
+```
+  {
+    "id": 1,
+    "classId": 2,
+    "createdAt": "2019-07-30 14:59:09",
+    "score": 100,
+    "streak": 6,
+    "theme": "aquarium"
+  }
+```
+
+##### 401 (UnAuthorized)
+
+```
+  {
+    message: "Invalid or expired token"
+  }
+```
+
+##### 404 (Bad Request) 
+Body was empty
+```
+  {
+    message: "Missing score data"
+  }
+```
+
+##### 428 (Preconditon Failed)
+
+```
+  {
+    message: "Missing required field(s): streak"
+  }
+```
+
+##### 500 (Server error)
+
+```
+  {
+    "message": "Score could not be added",
     "error": {
       "errno": 19,
       "code": "SQLITE_CONSTRAINT"

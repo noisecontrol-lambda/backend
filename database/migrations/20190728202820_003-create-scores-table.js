@@ -13,9 +13,9 @@ exports.up = function(knex) {
 
 		tbl.timestamp('createdAt').notNullable().defaultTo(knex.fn.now());
 
-		tbl.integer('score').notNullable();
-		tbl.boolean('streak').notNullable();
-		tbl.integer('threshold').unsigned();
+		tbl.integer('score').notNullable().defaultTo(0);
+		tbl.integer('streak').unsigned().notNullable().defaultTo(0);
+		// tbl.integer('threshold').unsigned();
 		tbl.string('theme');
 	});
 };

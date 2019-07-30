@@ -47,7 +47,7 @@ function validateScore(req, res, next) {
     res.status(404).json({ message: 'Missing score data' });
     return;
   }
-  const missing = validate(body, 'classId|score|streak');
+  const missing = validate(body, 'classId|streak');
   if (missing.length > 0) {
     res.status(428).json({ message: `Missing required field(s): ${missing.join(', ')}` });
   } else {

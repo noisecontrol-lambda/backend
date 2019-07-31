@@ -65,11 +65,11 @@ router.get('/:id', restricted, async (req, res) => {
 
   try {
     const teacher = await Teachers.findById(id);
-    delete teacher.password;
     if (teacher) {
+      delete teacher.password;
       res.status(200).json(teacher);
     } else {
-      res.status(404).json({ message: `Could not find teacher with id ${id}`, error });
+      res.status(404).json({ message: `Could not find teacher with id ${id}` });
     }
   } catch (error) {
     res.status(500).json({ message: 'Failed to get teacher', error });

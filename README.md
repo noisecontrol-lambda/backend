@@ -184,21 +184,61 @@ _http method_: **[GET]**
   [
     {
       "id": 1,
-      "username": "michael",
-      "email": "michael@example.com",
-      "firstName": "Michael",
-      "lastName": "Hart",
-      "title": "Mr.",
-      "theme": "zoo",
-    },
-    {
-      "id": 2,
       "username": "anabel",
       "email": "anabel@example.com",
       "firstName": "Anabel",
       "lastName": "Roberts",
       "title": "Mrs.",
-      "theme": "aquarium"
+      "theme": "aquarium",
+      "classes": [
+        {
+          "id": 1,
+          "name": "Kindergarten",
+          "teacherId": 1,
+          "theme": null,
+          "grade": "Kindergarten",
+          "numberOfKids": 30,
+          "streak": 5,
+          "scores": [
+            {
+              "id": 1,
+              "classId": 1,
+              "createdAt": "2019-07-31 12:41:11",
+              "score": 0,
+              "streak": 5,
+              "theme": null
+            },
+            {
+              "id": 2,
+              "classId": 1,
+              "createdAt": "2019-07-31 12:41:12",
+              "score": 0,
+              "streak": 5,
+              "theme": null
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "First Grade",
+          "teacherId": 1,
+          "theme": null,
+          "grade": "First",
+          "numberOfKids": 30,
+          "streak": 0,
+          "scores": []
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "username": "michael",
+      "email": "michael@example.com",
+      "firstName": "Michael",
+      "lastName": "Hart",
+      "title": "Mr.",
+      "theme": "safari",
+      "classes": []
     }
   ]
 ```
@@ -209,6 +249,14 @@ _http method_: **[GET]**
   {
     message: "Invalid or expired token"
   }
+```
+
+##### 404 (Bad Request)
+
+```
+{
+  message: "Could not find teacher with id ${id}"
+}
 ```
 
 ##### 500 (Bad Request)
@@ -246,19 +294,49 @@ _http method_: **[GET]**
 ```
   {
     "id": 1,
-    "username": "michael",
-    "email": "michael@example.com",
-    "firstName": "Michael",
-    "lastName": "Hart",
-    "title": "Mr.",
-    "theme": "zoo",
+    "username": "anabel",
+    "email": "anabel@example.com",
+    "firstName": "Anabel",
+    "lastName": "Roberts",
+    "title": "Mrs.",
+    "theme": "aquarium",
     "classes": [
       {
-        "id": 4,
-        "name": "First grade",
-        "teacherId": 2,
-        "theme": "zoo",
-        "streak": 3
+        "id": 1,
+        "name": "Kindergarten",
+        "teacherId": 1,
+        "theme": null,
+        "grade": "Kindergarten",
+        "numberOfKids": 30,
+        "streak": 5,
+        "scores": [
+          {
+            "id": 1,
+            "classId": 1,
+            "createdAt": "2019-07-31 12:41:11",
+            "score": 0,
+            "streak": 5,
+            "theme": null
+          },
+          {
+            "id": 2,
+            "classId": 1,
+            "createdAt": "2019-07-31 12:41:12",
+            "score": 0,
+            "streak": 5,
+            "theme": null
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "First Grade",
+        "teacherId": 1,
+        "theme": null,
+        "grade": "First",
+        "numberOfKids": 30,
+        "streak": 0,
+        "scores": []
       }
     ]
   }
@@ -335,26 +413,69 @@ Any of the following
 ##### 200 (ok)
 
 ###### Example response
+Returns full list of teachers
 
 ```
-  {
-    "id": 1,
-    "username": "michaelhart",
-    "email": "michaelhart@example.com",
-    "firstName": "Michael",
-    "lastName": "Hart",
-    "title": "Mr.",
-    "theme": "aquarium",
-    "classes": [
-      {
-        "id": 4,
-        "name": "First grade",
-        "teacherId": 2,
-        "theme": "zoo",
-        "streak": 3
-      }
-    ]
-  }
+  [
+    {
+      "id": 1,
+      "username": "anabel",
+      "email": "anabel@example.com",
+      "firstName": "Anabel",
+      "lastName": "Roberts",
+      "title": "Mrs.",
+      "theme": "aquarium",
+      "classes": [
+        {
+          "id": 1,
+          "name": "Kindergarten",
+          "teacherId": 1,
+          "theme": null,
+          "grade": "Kindergarten",
+          "numberOfKids": 30,
+          "streak": 5,
+          "scores": [
+            {
+              "id": 1,
+              "classId": 1,
+              "createdAt": "2019-07-31 12:41:11",
+              "score": 0,
+              "streak": 5,
+              "theme": null
+            },
+            {
+              "id": 2,
+              "classId": 1,
+              "createdAt": "2019-07-31 12:41:12",
+              "score": 0,
+              "streak": 5,
+              "theme": null
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "First Grade",
+          "teacherId": 1,
+          "theme": null,
+          "grade": "First",
+          "numberOfKids": 30,
+          "streak": 0,
+          "scores": []
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "username": "michael",
+      "email": "michael@example.com",
+      "firstName": "Michael",
+      "lastName": "Hart",
+      "title": "Mr.",
+      "theme": "safari",
+      "classes": []
+    }
+  ]
 ```
 
 ##### 401 (UnAuthorized)
@@ -375,7 +496,6 @@ Body was empty
 ```
 
 ##### 404 (Bad Request) 
-Body was empty
 
 ```
   {
@@ -417,11 +537,69 @@ None
 ##### 200 (ok)
 
 ###### Example response
+Returns full list of teachers
 
 ```
-  {
-    message: "Teacher with id ${id} deleted"
-  }
+  [
+    {
+      "id": 1,
+      "username": "anabel",
+      "email": "anabel@example.com",
+      "firstName": "Anabel",
+      "lastName": "Roberts",
+      "title": "Mrs.",
+      "theme": "aquarium",
+      "classes": [
+        {
+          "id": 1,
+          "name": "Kindergarten",
+          "teacherId": 1,
+          "theme": null,
+          "grade": "Kindergarten",
+          "numberOfKids": 30,
+          "streak": 5,
+          "scores": [
+            {
+              "id": 1,
+              "classId": 1,
+              "createdAt": "2019-07-31 12:41:11",
+              "score": 0,
+              "streak": 5,
+              "theme": null
+            },
+            {
+              "id": 2,
+              "classId": 1,
+              "createdAt": "2019-07-31 12:41:12",
+              "score": 0,
+              "streak": 5,
+              "theme": null
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "First Grade",
+          "teacherId": 1,
+          "theme": null,
+          "grade": "First",
+          "numberOfKids": 30,
+          "streak": 0,
+          "scores": []
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "username": "michael",
+      "email": "michael@example.com",
+      "firstName": "Michael",
+      "lastName": "Hart",
+      "title": "Mr.",
+      "theme": "safari",
+      "classes": []
+    }
+  ]
 ```
 
 ##### 401 (UnAuthorized)
@@ -433,7 +611,6 @@ None
 ```
 
 ##### 404 (Bad Request) 
-Body was empty
 
 ```
   {
@@ -517,6 +694,7 @@ _http method_: **[POST]**
 
 ##### 404 (Bad Request) 
 Body was empty
+
 ```
   {
     message: "Missing class data"
@@ -895,6 +1073,7 @@ _http method_: **[POST]**
 
 ##### 404 (Bad Request) 
 Body was empty
+
 ```
   {
     message: "Missing score data"

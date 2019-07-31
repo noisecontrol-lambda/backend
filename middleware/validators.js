@@ -17,7 +17,7 @@ function validateTeacher(req, res, next) {
     res.status(404).json({ message: 'Missing teacher data' });
     return;
   }
-  const missing = validate(body, 'username|password|firstName|lastName|email');
+  const missing = validate(body, 'password|firstName|lastName|email');
   if (missing.length > 0) {
     res.status(428).json({ message: `Missing required field(s): ${missing.join(', ')}` });
   } else {

@@ -1,4 +1,5 @@
 const db = require('../database/dbConfig.js');
+const Teachers = require('../teachers/teachers-model');
 
 module.exports = {
   add,
@@ -19,10 +20,9 @@ function findBy(filter) {
 }
 
 async function add(classroom) {
-  // console.log(classroom);
   const [id] = await db('classes').insert(classroom);
-
-  return findById(id);
+  // return findById(id);
+  return await Teachers.find();
 }
 
 async function findById(id) {
@@ -38,16 +38,26 @@ async function findById(id) {
 }
 
 async function update(id, changes) {
-  await db('classes')
-    .where({ id })
-    .update(changes);
-  return findById(id);
+  try {
+    await db('classes')
+      .where({ id })
+      .update(changes);
+  } catch (error) {
+    return error;
+  }
+  // return findById(id);
+  return await Teachers.find();
 }
 
 async function remove(id) {
-  return await db('classes')
-    .where({ id })
-    .del();
+  try {
+    await db('classes')
+      .where({ id })
+      .del();
+  } catch (error) {
+    return error;
+  }
+  return await Teachers.find();
 }
 
 async function findScoreById(id) {
@@ -61,5 +71,6 @@ async function addScore(score) {
   await db('classes')
     .where({ id: score.classId })
     .update({ streak: score.streak });
-  return await findScoreById(Number(id));
+  // return await findScoreById(Number(id));
+  return await Teachers.find();
 }

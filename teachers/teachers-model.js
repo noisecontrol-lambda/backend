@@ -1,4 +1,5 @@
 const db = require('../database/dbConfig.js');
+const Classes = require('../classes/classes-model');
 
 module.exports = {
   add,
@@ -10,7 +11,7 @@ module.exports = {
 };
 
 async function find() {
-  let teachers = await db('teachers').select('id', 'username', 'email', 'firstName', 'lastName', 'title', 'theme');
+  let teachers = await db('teachers').select('id', 'email', 'firstName', 'lastName', 'title', 'theme');
   teachers = await Promise.all(teachers.map(async (teacher) => {
     const classrooms = await db('classes').where({ teacherId: teacher.id });
     teacher.classes = await Promise.all(classrooms.map(async (classroom) => {

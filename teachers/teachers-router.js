@@ -25,22 +25,23 @@ router.post('/register', validateTeacher, (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-  let { username, password } = req.body;
+  let { email, password } = req.body;
 
-  if (!username || !password) {
-    res.status(428).json({ message: 'Missing username or password' })
+  if (!email || !password) {
+    res.status(428).json({ message: 'Missing email or password' })
   } else {
-  Teachers.findBy({ username })
+  let token;
+  Teachers.findBy({ email })
     .first()
     .then(teacher => {
       if (teacher && bcrypt.compareSync(password, teacher.password)) {
         // produce a token
-        const token = generateToken(teacher);
-        delete teacher.password;
-        res.status(200).json({
-          ...teacher,
-          token,
-        });
+        token = generateToken(teacher);
+        // delete teacher.password;
+        // res.status(200).json({
+        //   ...teacher,
+        //   token,
+        // });
       } else {
         res.status(401).json({ message: 'Invalid credentials' });
       }
@@ -48,6 +49,14 @@ router.post('/login', (req, res) => {
     .catch(error => {
       res.status(500).json({ message: 'Error logging in', error });
     });
+  Teachers.find()
+    .then(response => {
+      console.log(response);
+      res.status(200).json({ token, teachers: response});
+    })
+    .catch(error => {
+      res.status(500).json({ message: 'Error retrieving teachers', error });
+    })
   }
 });
 
@@ -123,7 +132,7 @@ router.delete('/:id', restricted, async (req, res) => {
 function generateToken(teacher) {
   const jwtPayload = {
     subject: teacher.id,
-    username: teacher.username,
+    email: teacher.email,
   };
 
   const jwtOptions = {

@@ -12,7 +12,7 @@ module.exports = {
 async function find() {
   let teachers = await db('teachers').select('id', 'username', 'email', 'firstName', 'lastName', 'title', 'theme');
   teachers = await Promise.all(teachers.map(async (teacher) => {
-    let classrooms = await db('classes').where({ teacherId: teacher.id });
+    const classrooms = await db('classes').where({ teacherId: teacher.id });
     teacher.classes = await Promise.all(classrooms.map(async (classroom) => {
       classroom.scores = await db('scores').where({ classId: classroom.id });
       return classroom;

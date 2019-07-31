@@ -110,7 +110,8 @@ router.delete('/:id', restricted, async (req, res) => {
     const deleted = await Teachers.remove(id);
 
     if (deleted) {
-      res.status(200).json({ message: `Teacher with id ${id} deleted` });
+      // res.status(200).json({ message: `Teacher with id ${id} deleted` });
+      res.status(200).json(deleted);
     } else {
       res.status(404).json({ message: `Could not find teacher with id ${id}` });
     }

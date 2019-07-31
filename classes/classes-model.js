@@ -15,14 +15,27 @@ function find() {
   return db('classes');
 }
 
+async function findTeachers() {
+  let teachers = await db('teachers').select('id', 'email', 'firstName', 'lastName', 'title', 'theme');
+  teachers = await Promise.all(teachers.map(async (teacher) => {
+    const classrooms = await db('classes').where({ teacherId: teacher.id });
+    teacher.classes = await Promise.all(classrooms.map(async (classroom) => {
+      classroom.scores = await db('scores').where({ classId: classroom.id });
+      return classroom;
+    }));
+    return teacher;
+  }));
+  return teachers;
+}
+
 function findBy(filter) {
   return db('classes').where(filter);
 }
 
 async function add(classroom) {
-  const [id] = await db('classes').insert(classroom);
+  await db('classes').insert(classroom);
   // return findById(id);
-  return await Teachers.find();
+  return await findTeachers();
 }
 
 async function findById(id) {
@@ -46,7 +59,7 @@ async function update(id, changes) {
     return error;
   }
   // return findById(id);
-  return await Teachers.find();
+  return await findTeachers();
 }
 
 async function remove(id) {
@@ -57,7 +70,7 @@ async function remove(id) {
   } catch (error) {
     return error;
   }
-  return await Teachers.find();
+  return await findTeachers();
 }
 
 async function findScoreById(id) {
@@ -72,5 +85,5 @@ async function addScore(score) {
     .where({ id: score.classId })
     .update({ streak: score.streak });
   // return await findScoreById(Number(id));
-  return await Teachers.find();
+  return await findTeachers();
 }

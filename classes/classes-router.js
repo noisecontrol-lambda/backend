@@ -66,7 +66,8 @@ router.delete('/:id', restricted, async (req, res) => {
     const deleted = await Classes.remove(id);
 
     if (deleted) {
-      res.status(200).json({ message: `Class with id ${id} deleted` });
+      // res.status(200).json({ message: `Class with id ${id} deleted` });
+      res.status(200).json(deleted);
     } else {
       res.status(404).json({ message: `Could not find class with id ${id}` });
     }

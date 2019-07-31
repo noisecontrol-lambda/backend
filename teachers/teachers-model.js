@@ -10,6 +10,16 @@ module.exports = {
   remove
 };
 
+// async function find() {
+//   let teachers = await db('teachers');
+//   teachers = await Promise.all(teachers.map(async (teacher) => {
+//     delete teacher.password;
+//     teacher.classes = [await Classes.findById(Number(teacher.id))];
+//     return teacher;
+//   }));
+//   return teachers;
+// }
+
 async function find() {
   let teachers = await db('teachers').select('id', 'email', 'firstName', 'lastName', 'title', 'theme');
   teachers = await Promise.all(teachers.map(async (teacher) => {

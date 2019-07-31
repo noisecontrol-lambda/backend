@@ -15,6 +15,7 @@ router.post('/register', validateTeacher, (req, res) => {
   teacher.password = hash;
   Teachers.add(teacher)
     .then(saved => {
+      delete saved.password;
       res.status(201).json(saved);
     })
     .catch(error => {

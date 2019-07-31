@@ -9,7 +9,6 @@ exports.up = function(knex) {
     tbl.string('lastName', 128).notNullable();
     tbl.string('title', 128); // Mr., Miss, Mrs., etc.
     tbl.string('theme', 128);
-    // tbl.text('intake');
 	});
 };
 

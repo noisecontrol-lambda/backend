@@ -23,7 +23,8 @@
   "scripts": {
     "server": "nodemon",
     "start": "node index.js",
-    "test": "cross-env DB_ENV=testing jest --watch --verbose"
+    "test": "cross-env DB_ENV=testing jest --watch --verbose",
+    "heroku-postbuild": "npm install --production && knex migrate:latest && knex seed:run"
   },
   "author": "michael-hart",
   "license": "MIT"

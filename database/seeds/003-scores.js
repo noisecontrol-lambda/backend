@@ -1,8 +1,7 @@
 
 exports.seed = function(knex) {
   // Deletes ALL existing entries
-  return knex('scores').del()
-    .then(function () {
+  return knex('scores').then(function () {
       // Inserts seed entries
       return knex('scores').insert([
         { classId: 1, createdAt: '2019-07-29 12:55:56', score: 100, streak: 1, theme: 'safari' },

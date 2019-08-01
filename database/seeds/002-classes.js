@@ -1,8 +1,7 @@
 
 exports.seed = function(knex) {
   // Deletes ALL existing entries
-  return knex('classes').truncate()
-    .then(function () {
+  return knex('classes').then(function () {
       // Inserts seed entries
       return knex('classes').insert([
         { name: 'Morning Kindergarten', teacherId: 1, theme: 'safari', grade: 'Kindergarten', numberOfKids: 25, streak: 3 },

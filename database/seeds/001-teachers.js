@@ -1,8 +1,7 @@
 
 exports.seed = function(knex) {
   // Deletes ALL existing entries
-  return knex('teachers').del()
-    .then(function () {
+  return knex('teachers').then(function () {
       // Inserts seed entries
       return knex('teachers').insert([
         { email: 'michael@example.com', password: '$2a$10$XNhVj5HP7tf92Jq9jOhVHu1nMZqPBHL2lRPVX8jxWmVyPa6HrhsO2', firstName: 'Michael', lastName: 'Hart', title: 'Mr.', theme: 'safari' },

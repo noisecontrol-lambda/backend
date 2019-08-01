@@ -24,34 +24,29 @@ router.post('/register', validateTeacher, (req, res) => {
     });
 });
 
-router.post('/login', (req, res, next) => {
+router.post('/login', async (req, res) => {
   let { email, password } = req.body;
 
   if (!email || !password) {
     res.status(428).json({ message: 'Missing email or password' })
   } else {
     let token;
-    Teachers.findBy({ email })
-      .first()
-      .then(teacher => {
-        if (teacher && bcrypt.compareSync(password, teacher.password)) {
-          token = generateToken(teacher);
-          Teachers.find()
-            .then(response => {
-              res.status(200).json({ token, teachers: response });
-            })
-            .catch(error => {
-              res.status(500).json({ message: 'Error retrieving teachers', error });
-            });
-        } else {
-          res.status(401).json({ message: 'Invalid credentials' });
-          next();
+    try {
+      const teacher = await Teachers.findBy({ email }).first();
+      if (teacher && bcrypt.compareSync(password, teacher.password)) {
+        token = generateToken(teacher);
+        try {
+          const teachers = await Teachers.find();
+          res.status(200).json({ token, teachers });
+        } catch (error) {
+          res.status(500).json({ message: 'Error retrieving teachers', error });
         }
-      })
-      .catch(error => {
-        res.status(500).json({ message: 'Error logging in', error });
-        next();
-      });
+      } else {
+        res.status(401).json({ message: 'Invalid credentials' });
+      }
+    } catch (error) {
+      res.status(500).json({ message: 'Error logging in', error });
+    }
   }
 });
 

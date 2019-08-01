@@ -16,7 +16,7 @@ async function find() {
   let teachers = await db('teachers').select('id', 'email', 'firstName', 'lastName', 'title', 'theme');
   // Map over the list of teachers, and for each teacher...
   teachers = await Promise.all(teachers.map(async (teacher) => {
-    // ...retreive all their associated classes
+    // ...retrieve all their associated classes
     const classrooms = await db('classes').where({ teacherId: teacher.id });
     // Mapping over the list of classes, add each class to the teacher object...
     teacher.classes = await Promise.all(classrooms.map(async (classroom) => {

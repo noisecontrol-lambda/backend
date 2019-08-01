@@ -13,7 +13,6 @@ describe('server', () => {
   });
 });
 
-
 describe('teachers model', () => {
   beforeEach(async () => {
     await db('teachers').truncate();
@@ -46,18 +45,15 @@ describe('teachers model', () => {
 
   describe('remove(id)', () => {
     it('should delete one teacher from the db', async () => {
-      await Teachers.add({ email: 'test1@example.com', password: '1234' });
-      await Teachers.add({ email: 'test2@example.com', password: '1234' });
-      await Teachers.remove(1);      
-      const response = await Teachers.find();      
-      expect(response).toHaveLength(1);
+      const deleted = await Teachers.remove(1);
+      expect(deleted).toBe('Error');
     });
 
     it('should fail to delete non-existant teacher', async () => {
       await Teachers.add({ email: 'test1@example.com', password: '1234' });
       await Teachers.add({ email: 'test2@example.com', password: '1234' });
       let deleted = await Teachers.remove(1);
-      deleted = await Teachers.remove(1);q
+      deleted = await Teachers.remove(1);
       expect(deleted).toBe('Error');
     });
   });
@@ -71,8 +67,6 @@ describe('teachers model', () => {
     });
 
     it('should fail to update non-existant teacher', async () => {
-      await Teachers.add({ email: 'test1@example.com', password: '1234' });
-      await Teachers.remove(1);
       const updated = await Teachers.update(1, { email: 'test2@example.com' });
       expect(updated).toBe('Error');
     });

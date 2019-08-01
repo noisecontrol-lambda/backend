@@ -74,4 +74,21 @@ describe('classes model', () => {
       expect(updated).toBe('Error');
     });
   });
+
+  describe('addScore()', () => {
+    it('should insert the scores into the class', async () => {
+      await Classes.add({ name: 'First Grade', teacherId: 1 }); 
+      const response = await Classes.addScore({ classId: 1, createdAt: '2019-07-30 12:55:56', score: 100, streak: 2, theme: 'safari' });
+      expect(response[0].classes[0].scores).toHaveLength(1);
+    });
+
+    it('should fail to insert the score into nonexistant class', async () => {
+      try {
+        await Classes.addScore({ classId: 1, createdAt: '2019-07-30 12:55:56', score: 100, streak: 2, theme: 'safari' });
+      } catch (error) {
+        expect(error);
+      }
+    });
+  });
+  
 });

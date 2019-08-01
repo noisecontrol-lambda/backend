@@ -60,16 +60,16 @@ async function findById(teacherId) {
 }
 
 async function update(id, changes) {
-  await db('teachers')
+  const updated = await db('teachers')
     .where({ id })
     .update(changes);
   // return findById(id);
-  return find();
+  return updated ? find() : 'Error';
 }
 
 async function remove(id) {
-  await db('teachers')
-    .where({ id })
-    .del();
-  return find();
+  const deleted = await db('teachers')
+      .where({ id })
+      .del();
+  return deleted ? find() : 'Error';
 }

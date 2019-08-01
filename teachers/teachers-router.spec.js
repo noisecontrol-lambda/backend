@@ -57,7 +57,7 @@ describe('teachers model', () => {
       await Teachers.add({ email: 'test1@example.com', password: '1234' });
       await Teachers.add({ email: 'test2@example.com', password: '1234' });
       let deleted = await Teachers.remove(1);
-      deleted = await Teachers.remove(1);
+      deleted = await Teachers.remove(1);q
       expect(deleted).toBe('Error');
     });
   });

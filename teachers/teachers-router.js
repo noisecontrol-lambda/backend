@@ -24,7 +24,7 @@ router.post('/register', validateTeacher, (req, res) => {
     });
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', (req, res, next) => {
   let { email, password } = req.body;
 
   if (!email || !password) {
@@ -36,24 +36,22 @@ router.post('/login', (req, res) => {
       .then(teacher => {
         if (teacher && bcrypt.compareSync(password, teacher.password)) {
           token = generateToken(teacher);
+          Teachers.find()
+            .then(response => {
+              res.status(200).json({ token, teachers: response });
+            })
+            .catch(error => {
+              res.status(500).json({ message: 'Error retrieving teachers', error });
+            });
         } else {
-
-        console.log(error);
           res.status(401).json({ message: 'Invalid credentials' });
-          return;
+          next();
         }
       })
       .catch(error => {
         res.status(500).json({ message: 'Error logging in', error });
-        return;
+        next();
       });
-    Teachers.find()
-      .then(response => {
-        res.status(200).json({ token, teachers: response});
-    })
-      .catch(error => {
-        res.status(500).json({ message: 'Error retrieving teachers', error });
-    })
   }
 });
 

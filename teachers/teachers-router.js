@@ -9,13 +9,12 @@ const restricted = require('../middleware/restricted');
 const { validateTeacher } = require('../middleware/validators');
 
 router.post('/register', validateTeacher, (req, res) => {
-  let teacher = req.teacher;
+  let { teacher, classRoom } = req;
 
   const hash = bcrypt.hashSync(teacher.password, 10); // 2 ^ n
   teacher.password = hash;
-  Teachers.add(teacher)
+  Teachers.add(teacher, classRoom)
     .then(saved => {
-      delete saved.password;
       res.status(201).json(saved);
     })
     .catch(error => {

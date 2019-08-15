@@ -33,9 +33,12 @@ function findBy(filter) {
   return db('teachers').where(filter);
 }
 
-async function add(teacher) {
-  await db('teachers').insert(teacher);
-  return find();
+async function add(teacher, classRoom) {
+  const [id] = await db('teachers').insert(teacher);
+  const teacherRecord = await findById(id);
+  classRoom.teacherId = teacherRecord.id;
+  await db('classes').insert(classRoom);
+  return await find();
 }
 
 async function findById(id) {

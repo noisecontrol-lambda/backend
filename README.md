@@ -1,5 +1,7 @@
 ### Noise Controller ###
 
+*BASE URL: https://noise-controller-backend.herokuapp.com/*
+
 **/--------------------------------------------/ AUTH ROUTES /-----------------------------------/**
 
 **Register a Teacher**

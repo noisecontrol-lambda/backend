@@ -1,6 +1,6 @@
-### Noise Controller ###
+### Noise Controller
 
-*BASE URL: https://noise-controller-backend.herokuapp.com/*
+_BASE URL: https://noise-controller-backend.herokuapp.com/_
 
 **/--------------------------------------------/ AUTH ROUTES /-----------------------------------/**
 
@@ -17,16 +17,16 @@ _http method_: **[POST]**
 
 #### Body
 
-| name         | type   | required | description            |
-| ------------ | ------ | -------- | --------------         |
-| `username`   | String | Yes      | Must be unique         |
-| `password`   | String | Yes      |                        |
-| `email`      | String | Yes      | Must be unique         |
-| `firstName`  | String | No       |                        |
-| `lastName`   | String | No       |                        |
-| `title`      | String | No       | Mr., Mrs., etc         |
-| `theme`      | String | No       | Default theme          |
-|              |        |          | JSON.stringify() first |
+| name        | type   | required | description            |
+| ----------- | ------ | -------- | ---------------------- |
+| `username`  | String | Yes      | Must be unique         |
+| `password`  | String | Yes      |                        |
+| `email`     | String | Yes      | Must be unique         |
+| `firstName` | String | No       |                        |
+| `lastName`  | String | No       |                        |
+| `title`     | String | No       | Mr., Mrs., etc         |
+| `theme`     | String | No       | Default theme          |
+|             |        |          | JSON.stringify() first |
 
 #### Example
 
@@ -123,14 +123,15 @@ _http method_: **[POST]**
 
 ```
   {
-    "id": 2,
+    "id": 1,
     "username": "michael",
+    "password": "$2a$10$XNhVj5HP7tf92Jq9jOhVHu1nMZqPBHL2lRPVX8jxWmVyPa6HrhsO2",
     "email": "michael@example.com",
     "firstName": "Michael",
     "lastName": "Hart",
     "title": "Mr.",
-    "theme": "zoo",
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoyLCJ1c2VybmFtZSI6Im1pY2hhZWwiLCJpYXQiOjE1NjQ0MDY4OTQsImV4cCI6MTU2NDQ1MDA5NH0.sbuq8MfwUEaqjcdMEFgCLsxlNvnrpX9UndYIMKli14s"
+    "theme": "safari",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxLCJlbWFpbCI6Im1pY2hhZWxAZXhhbXBsZS5jb20iLCJpYXQiOjE1NzExNDEyMjYsImV4cCI6MTU3MTE4NDQyNn0.Csp6Aknp9xmLsiEluOHNa8zWsmw2KqBK2SUIADqryU8"
   }
 ```
 
@@ -139,14 +140,6 @@ _http method_: **[POST]**
 ```
   {
     message: "Missing username or password"
-  }
-```
-
-##### 401 (UnAuthorized)
-
-```
-  {
-    message: "Invalid or expired token"
   }
 ```
 
@@ -173,7 +166,7 @@ _http method_: **[GET]**
 #### Headers
 
 | name            | type   | required | description                    |
-| --------------  | ------ | -------- | ------------------------------ |
+| --------------- | ------ | -------- | ------------------------------ |
 | `Authorization` | String | Yes      | Authorization token from login |
 
 #### Response
@@ -186,61 +179,114 @@ _http method_: **[GET]**
   [
     {
       "id": 1,
-      "username": "anabel",
-      "email": "anabel@example.com",
-      "firstName": "Anabel",
-      "lastName": "Roberts",
-      "title": "Mrs.",
-      "theme": "aquarium",
-      "classes": [
-        {
-          "id": 1,
-          "name": "Kindergarten",
-          "teacherId": 1,
-          "theme": null,
-          "grade": "Kindergarten",
-          "numberOfKids": 30,
-          "streak": 5,
-          "scores": [
-            {
-              "id": 1,
-              "classId": 1,
-              "createdAt": "2019-07-31 12:41:11",
-              "score": 0,
-              "streak": 5,
-              "theme": null
-            },
-            {
-              "id": 2,
-              "classId": 1,
-              "createdAt": "2019-07-31 12:41:12",
-              "score": 0,
-              "streak": 5,
-              "theme": null
-            }
-          ]
-        },
-        {
-          "id": 2,
-          "name": "First Grade",
-          "teacherId": 1,
-          "theme": null,
-          "grade": "First",
-          "numberOfKids": 30,
-          "streak": 0,
-          "scores": []
-        }
-      ]
-    },
-    {
-      "id": 2,
       "username": "michael",
       "email": "michael@example.com",
       "firstName": "Michael",
       "lastName": "Hart",
       "title": "Mr.",
       "theme": "safari",
-      "classes": []
+      "classes": [
+        {
+          "id": 1,
+          "name": "Morning Kindergarten",
+          "teacherId": 1,
+          "theme": "safari",
+          "grade": "Kindergarten",
+          "numberOfKids": 25,
+          "streak": 3,
+          "scores": [
+            {
+              "id": 1,
+              "classId": 1,
+              "createdAt": "2019-07-29 12:55:56",
+              "score": 100,
+              "streak": 1,
+              "theme": "safari"
+            },
+            {
+              "id": 2,
+              "classId": 1,
+              "createdAt": "2019-07-30 12:55:56",
+              "score": 100,
+              "streak": 2,
+              "theme": "safari"
+            },
+            {
+              "id": 3,
+              "classId": 1,
+              "createdAt": "2019-07-31 12:55:56",
+              "score": 100,
+              "streak": 3,
+              "theme": "safari"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Afternoon Kindergarten",
+          "teacherId": 1,
+          "theme": "safari",
+          "grade": "Kindergarten",
+          "numberOfKids": 30,
+          "streak": 0,
+          "scores": [
+            {
+              "id": 4,
+              "classId": 2,
+              "createdAt": "2019-07-29 12:55:56",
+              "score": 100,
+              "streak": 1,
+              "theme": "safari"
+            },
+            {
+              "id": 5,
+              "classId": 2,
+              "createdAt": "2019-07-30 12:55:56",
+              "score": 100,
+              "streak": 2,
+              "theme": "safari"
+            },
+            {
+              "id": 6,
+              "classId": 2,
+              "createdAt": "2019-07-31 12:55:56",
+              "score": 75,
+              "streak": 0,
+              "theme": "safari"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "username": "anastasia",
+      "email": "anastasia@example.com",
+      "firstName": "Anastasia",
+      "lastName": "Garciaparra",
+      "title": "Mrs.",
+      "theme": "safari",
+      "classes": [
+        {
+          "id": 3,
+          "name": "First Grade",
+          "teacherId": 2,
+          "theme": "safari",
+          "grade": "1",
+          "numberOfKids": 23,
+          "streak": 1,
+          "scores": [
+            {
+              "id": 7,
+              "classId": 3,
+              "createdAt": "2019-07-31 12:55:56",
+              "score": 100,
+              "streak": 1,
+              "theme": "safari"
+            }
+          ]
+        }
+      ]
     }
   ]
 ```
@@ -284,7 +330,7 @@ _http method_: **[GET]**
 #### Headers
 
 | name            | type   | required | description                    |
-| --------------  | ------ | -------- | ------------------------------ |
+| --------------- | ------ | -------- | ------------------------------ |
 | `Authorization` | String | Yes      | Authorization token from login |
 
 #### Response
@@ -352,7 +398,8 @@ _http method_: **[GET]**
   }
 ```
 
-##### 404 (Bad Request) 
+##### 404 (Bad Request)
+
 Body was empty
 
 ```
@@ -384,21 +431,22 @@ _http method_: **[PUT]**
 #### Headers
 
 | name            | type   | required | description                    |
-| --------------  | ------ | -------- | ------------------------------ |
+| --------------- | ------ | -------- | ------------------------------ |
 | `Authorization` | String | Yes      | Authorization token from login |
 
 #### Body
+
 Any of the following
 
-| name         | type   | required | description            |
-| ------------ | ------ | -------- | --------------         |
-| `username`   | String | No       | Must be unique         |
-| `password`   | String | No       |                        |
-| `email`      | String | No       | Must be unique         |
-| `firstName`  | String | No       |                        |
-| `lastName`   | String | No       |                        |
-| `title`      | String | No       | Mr., Mrs., etc         |
-| `theme`      | String | No       | Default theme          |
+| name        | type   | required | description    |
+| ----------- | ------ | -------- | -------------- |
+| `username`  | String | No       | Must be unique |
+| `password`  | String | No       |                |
+| `email`     | String | No       | Must be unique |
+| `firstName` | String | No       |                |
+| `lastName`  | String | No       |                |
+| `title`     | String | No       | Mr., Mrs., etc |
+| `theme`     | String | No       | Default theme  |
 
 #### Example
 
@@ -415,69 +463,20 @@ Any of the following
 ##### 200 (ok)
 
 ###### Example response
-Returns full list of teachers
+
+Returns updated teacher
 
 ```
-  [
-    {
-      "id": 1,
-      "username": "anabel",
-      "email": "anabel@example.com",
-      "firstName": "Anabel",
-      "lastName": "Roberts",
-      "title": "Mrs.",
-      "theme": "aquarium",
-      "classes": [
-        {
-          "id": 1,
-          "name": "Kindergarten",
-          "teacherId": 1,
-          "theme": null,
-          "grade": "Kindergarten",
-          "numberOfKids": 30,
-          "streak": 5,
-          "scores": [
-            {
-              "id": 1,
-              "classId": 1,
-              "createdAt": "2019-07-31 12:41:11",
-              "score": 0,
-              "streak": 5,
-              "theme": null
-            },
-            {
-              "id": 2,
-              "classId": 1,
-              "createdAt": "2019-07-31 12:41:12",
-              "score": 0,
-              "streak": 5,
-              "theme": null
-            }
-          ]
-        },
-        {
-          "id": 2,
-          "name": "First Grade",
-          "teacherId": 1,
-          "theme": null,
-          "grade": "First",
-          "numberOfKids": 30,
-          "streak": 0,
-          "scores": []
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "username": "michael",
-      "email": "michael@example.com",
-      "firstName": "Michael",
-      "lastName": "Hart",
-      "title": "Mr.",
-      "theme": "safari",
-      "classes": []
-    }
-  ]
+  {
+    "id": 1,
+    "username": "michaelhart",
+    "email": "michaelhart@example.com",
+    "firstName": "Michael",
+    "lastName": "Hart",
+    "title": "Mr.",
+    "theme": "aquarium",
+    "classes": []
+  }
 ```
 
 ##### 401 (UnAuthorized)
@@ -488,7 +487,8 @@ Returns full list of teachers
   }
 ```
 
-##### 404 (Bad Request) 
+##### 404 (Bad Request)
+
 Body was empty
 
 ```
@@ -497,7 +497,7 @@ Body was empty
   }
 ```
 
-##### 404 (Bad Request) 
+##### 404 (Bad Request)
 
 ```
   {
@@ -528,10 +528,11 @@ _http method_: **[DELETE]**
 #### Headers
 
 | name            | type   | required | description                    |
-| --------------  | ------ | -------- | ------------------------------ |
+| --------------- | ------ | -------- | ------------------------------ |
 | `Authorization` | String | Yes      | Authorization token from login |
 
 #### Body
+
 None
 
 #### Response
@@ -539,69 +540,11 @@ None
 ##### 200 (ok)
 
 ###### Example response
-Returns full list of teachers
+
+Returns true if successful
 
 ```
-  [
-    {
-      "id": 1,
-      "username": "anabel",
-      "email": "anabel@example.com",
-      "firstName": "Anabel",
-      "lastName": "Roberts",
-      "title": "Mrs.",
-      "theme": "aquarium",
-      "classes": [
-        {
-          "id": 1,
-          "name": "Kindergarten",
-          "teacherId": 1,
-          "theme": null,
-          "grade": "Kindergarten",
-          "numberOfKids": 30,
-          "streak": 5,
-          "scores": [
-            {
-              "id": 1,
-              "classId": 1,
-              "createdAt": "2019-07-31 12:41:11",
-              "score": 0,
-              "streak": 5,
-              "theme": null
-            },
-            {
-              "id": 2,
-              "classId": 1,
-              "createdAt": "2019-07-31 12:41:12",
-              "score": 0,
-              "streak": 5,
-              "theme": null
-            }
-          ]
-        },
-        {
-          "id": 2,
-          "name": "First Grade",
-          "teacherId": 1,
-          "theme": null,
-          "grade": "First",
-          "numberOfKids": 30,
-          "streak": 0,
-          "scores": []
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "username": "michael",
-      "email": "michael@example.com",
-      "firstName": "Michael",
-      "lastName": "Hart",
-      "title": "Mr.",
-      "theme": "safari",
-      "classes": []
-    }
-  ]
+  true
 ```
 
 ##### 401 (UnAuthorized)
@@ -612,7 +555,7 @@ Returns full list of teachers
   }
 ```
 
-##### 404 (Bad Request) 
+##### 404 (Bad Request)
 
 ```
   {
@@ -642,19 +585,19 @@ _http method_: **[POST]**
 #### Headers
 
 | name            | type   | required | description                    |
-| --------------  | ------ | -------- | ------------------------------ |
+| --------------- | ------ | -------- | ------------------------------ |
 | `Authorization` | String | Yes      | Authorization token from login |
 
 #### Body
 
-| name         | type    | required | description   
-| ------------ | ------- | -------- | --------------
-| `name`       | String  | Yes      | 
-| `teacherId`  | Integer | Yes      | Must be the ID of an existing teacher record
-| `theme`      | String  | No       |
-| `grade`      | String  | No       |
-| `numberOfKids`| Integer | No     
-| `streak`     | Integer | No       | Will automatically be copied from most recent streak you've saved, no need to update this manually but you can
+| name           | type    | required | description                                                                                                    |
+| -------------- | ------- | -------- | -------------------------------------------------------------------------------------------------------------- |
+| `name`         | String  | Yes      |
+| `teacherId`    | Integer | Yes      | Must be the ID of an existing teacher record                                                                   |
+| `theme`        | String  | No       |
+| `grade`        | String  | No       |
+| `numberOfKids` | Integer | No       |
+| `streak`       | Integer | No       | Will automatically be copied from most recent streak you've saved, no need to update this manually but you can |
 
 #### Example
 
@@ -679,10 +622,11 @@ _http method_: **[POST]**
     "id": 1,
     "name": "Third grade",
     "teacherId": 1,
+    "theme": "zoo",
     "grade": "3",
     "numberOfKids": 25,
-    "theme": "zoo",
-    "streak": 0
+    "streak": 0,
+    "scores": []
   }
 ```
 
@@ -694,7 +638,8 @@ _http method_: **[POST]**
   }
 ```
 
-##### 404 (Bad Request) 
+##### 404 (Bad Request)
+
 Body was empty
 
 ```
@@ -703,7 +648,7 @@ Body was empty
   }
 ```
 
-##### 404 (Bad Request) 
+##### 404 (Bad Request)
 
 ```
   {
@@ -731,7 +676,7 @@ Body was empty
   }
 ```
 
-`SQLITE_CONSTRAINT` usually indicates that one of the fields that is required to be unique, eg. `username` or `email`, is already registered. Will replace this with more helpful error messages soon.
+In this case `SQLITE_CONSTRAINT` likely indicates that an invalid teacherId was provided
 
 **/----------------------------------------/**
 
@@ -743,20 +688,21 @@ _http method_: **[PUT]**
 #### Headers
 
 | name            | type   | required | description                    |
-| --------------  | ------ | -------- | ------------------------------ |
+| --------------- | ------ | -------- | ------------------------------ |
 | `Authorization` | String | Yes      | Authorization token from login |
 
 #### Body
+
 Any of the following
 
-| name         | type    | required | description   
-| ------------ | ------- | -------- | --------------
-| `name`       | String  | Yes      | 
-| `teacherId`  | Integer | Yes      | Must be the ID of an existing teacher record
-| `theme`      | String  | No       |
-| `grade`      | String  | No       |
-| `numberOfKids`| Integer | No     
-| `streak`     | Integer | No       | Will automatically be copied from most recent streak you've saved, no need to update this manually but you can
+| name           | type    | required | description                                                                                                    |
+| -------------- | ------- | -------- | -------------------------------------------------------------------------------------------------------------- |
+| `name`         | String  | Yes      |
+| `teacherId`    | Integer | Yes      | Must be the ID of an existing teacher record                                                                   |
+| `theme`        | String  | No       |
+| `grade`        | String  | No       |
+| `numberOfKids` | Integer | No       |
+| `streak`       | Integer | No       | Will automatically be copied from most recent streak you've saved, no need to update this manually but you can |
 
 #### Example
 
@@ -769,19 +715,22 @@ Any of the following
 
 #### Response
 
-##### 201 (created)
+##### 200 (ok)
 
 ###### Example Response
+
+Returns updated class
 
 ```
   {
     "id": 1,
-    "name": "Second grade",
+    "name": "Second Grade",
     "teacherId": 1,
+    "theme": "safari",
     "grade": "2",
     "numberOfKids": 25,
-    "theme": "zoo",
-    "streak": 0
+    "streak": 3,
+    "scores": []
   }
 ```
 
@@ -793,7 +742,8 @@ Any of the following
   }
 ```
 
-##### 404 (Bad Request) 
+##### 404 (Bad Request)
+
 Body was empty
 
 ```
@@ -802,7 +752,7 @@ Body was empty
   }
 ```
 
-##### 404 (Bad Request) 
+##### 404 (Bad Request)
 
 ```
   {
@@ -830,6 +780,8 @@ Body was empty
   }
 ```
 
+In this case `SQLITE_CONSTRAINT` likely indicates that an invalid teacherId was provided
+
 **/----------------------------------------/**
 
 **Get list of Classes **
@@ -840,10 +792,11 @@ _http method_: **[GET]**
 #### Headers
 
 | name            | type   | required | description                    |
-| --------------  | ------ | -------- | ------------------------------ |
+| --------------- | ------ | -------- | ------------------------------ |
 | `Authorization` | String | Yes      | Authorization token from login |
 
 #### Body
+
 None
 
 #### Response
@@ -853,26 +806,62 @@ None
 ###### Example Response
 
 ```
-[
-  {
-    "id": 1,
-    "name": "Third grade",
-    "teacherId": 2,
-    "theme": "zoo",
-    "grade": "3",
-    "numberOfKids": 25,
-    "streak": 4
-  },
-  {
-    "id": 2,
-    "name": "Kindergarten",
-    "teacherId": 1,
-    "theme": "jungle",
-    "grade": "Kindergarten",
-    "numberOfKids": 30,
-    "streak": 2
-  }
-]
+  [
+    {
+      "id": 1,
+      "name": "Second Grade",
+      "teacherId": 1,
+      "theme": "safari",
+      "grade": "2",
+      "numberOfKids": 25,
+      "streak": 3
+    },
+    {
+      "id": 2,
+      "name": "Afternoon Kindergarten",
+      "teacherId": 1,
+      "theme": "safari",
+      "grade": "Kindergarten",
+      "numberOfKids": 30,
+      "streak": 0
+    },
+    {
+      "id": 3,
+      "name": "First Grade",
+      "teacherId": 2,
+      "theme": "safari",
+      "grade": "1",
+      "numberOfKids": 23,
+      "streak": 1
+    },
+    {
+      "id": 4,
+      "name": "Third grade",
+      "teacherId": 1,
+      "theme": "zoo",
+      "grade": "3",
+      "numberOfKids": 25,
+      "streak": 0
+    },
+    {
+      "id": 5,
+      "name": "Third grade",
+      "teacherId": 1,
+      "theme": "zoo",
+      "grade": "3",
+      "numberOfKids": 25,
+      "streak": 0
+    },
+    {
+      "id": 6,
+      "name": "Third grade",
+      "teacherId": 1,
+      "theme": "zoo",
+      "grade": "3",
+      "numberOfKids": 25,
+      "streak": 0
+    }
+  ]
 ```
 
 ##### 401 (UnAuthorized)
@@ -905,10 +894,11 @@ _http method_: **[GET]**
 #### Headers
 
 | name            | type   | required | description                    |
-| --------------  | ------ | -------- | ------------------------------ |
+| --------------- | ------ | -------- | ------------------------------ |
 | `Authorization` | String | Yes      | Authorization token from login |
 
 #### Body
+
 None
 
 #### Response
@@ -917,18 +907,44 @@ None
 
 ###### Example Response
 
+Returns a single class
+
 ```
-[
   {
     "id": 1,
-    "name": "Third grade",
-    "teacherId": 2,
-    "theme": "zoo",
-    "grade": "3",
+    "name": "Second Grade",
+    "teacherId": 1,
+    "theme": "safari",
+    "grade": "2",
     "numberOfKids": 25,
-    "streak": 4
+    "streak": 3,
+    "scores": [
+      {
+        "id": 1,
+        "classId": 1,
+        "createdAt": "2019-07-29 12:55:56",
+        "score": 100,
+        "streak": 1,
+        "theme": "safari"
+      },
+      {
+        "id": 2,
+        "classId": 1,
+        "createdAt": "2019-07-30 12:55:56",
+        "score": 100,
+        "streak": 2,
+        "theme": "safari"
+      },
+      {
+        "id": 3,
+        "classId": 1,
+        "createdAt": "2019-07-31 12:55:56",
+        "score": 100,
+        "streak": 3,
+        "theme": "safari"
+      }
+    ]
   }
-]
 ```
 
 ##### 401 (UnAuthorized)
@@ -969,10 +985,11 @@ _http method_: **[DELETE]**
 #### Headers
 
 | name            | type   | required | description                    |
-| --------------  | ------ | -------- | ------------------------------ |
+| --------------- | ------ | -------- | ------------------------------ |
 | `Authorization` | String | Yes      | Authorization token from login |
 
 #### Body
+
 None
 
 #### Response
@@ -981,10 +998,10 @@ None
 
 ###### Example Response
 
+Returns true if successful
+
 ```
-  {
-    "message": "Class with id 1 deleted"
-  }
+  true
 ```
 
 ##### 401 (UnAuthorized)
@@ -995,7 +1012,7 @@ None
   }
 ```
 
-##### 404 (Bad Request) 
+##### 404 (Bad Request)
 
 ```
   {
@@ -1017,7 +1034,7 @@ None
 
 **/--------------------------------------------/ SCORE ROUTES /-----------------------------------/**
 
-**Create a Class **
+**Create a Score **
 _method url_: `/api/classes/:id/score`
 
 _http method_: **[POST]**
@@ -1025,17 +1042,17 @@ _http method_: **[POST]**
 #### Headers
 
 | name            | type   | required | description                    |
-| --------------  | ------ | -------- | ------------------------------ |
+| --------------- | ------ | -------- | ------------------------------ |
 | `Authorization` | String | Yes      | Authorization token from login |
 
 #### Body
 
-| name         | type    | required | description   
-| ------------ | ------- | -------- | --------------
-| `classId`       | Integer  | Yes      | Must be the ID of an existing class record
-| `score`      | Integer  | No       |
-| `streak`     | Integer | Yes       | After POSTing, this value will also be copied automatically to the class record
-| `theme`      | String | No | In case a teacher wants to track which theme gets the best results from their kids
+| name      | type    | required | description                                                                        |
+| --------- | ------- | -------- | ---------------------------------------------------------------------------------- |
+| `classId` | Integer | Yes      | Must be the ID of an existing class record                                         |
+| `score`   | Integer | No       |
+| `streak`  | Integer | Yes      | After POSTing, this value will also be copied automatically to the class record    |
+| `theme`   | String  | No       | In case a teacher wants to track which theme gets the best results from their kids |
 
 #### Example
 
@@ -1056,9 +1073,9 @@ _http method_: **[POST]**
 
 ```
   {
-    "id": 1,
+    "id": 9,
     "classId": 2,
-    "createdAt": "2019-07-30 14:59:09",
+    "createdAt": "2019-10-15 12:38:44",
     "score": 100,
     "streak": 6,
     "theme": "aquarium"
@@ -1073,7 +1090,8 @@ _http method_: **[POST]**
   }
 ```
 
-##### 404 (Bad Request) 
+##### 404 (Bad Request)
+
 Body was empty
 
 ```
@@ -1101,5 +1119,3 @@ Body was empty
     }
   }
 ```
-
-`SQLITE_CONSTRAINT` usually indicates that one of the fields that is required to be unique, eg. `username` or `email`, is already registered. Will replace this with more helpful error messages soon.
